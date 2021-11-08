@@ -1,7 +1,7 @@
 // import books from "./components/booksapi";
 import { gql, useQuery } from '@apollo/client'
 
-import Head from './components/Head';
+import ChapDisplay from './components/ChapDisplay';
 
 const GET_ANNOTS = gql`
   query {
@@ -24,10 +24,10 @@ function App() {
 
   return (
     <>
-    <Head />
     <h1>
       annotations should be in console...
     </h1>
+    <ChapDisplay />
     </>
   );
 }

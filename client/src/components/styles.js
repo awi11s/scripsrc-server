@@ -11,6 +11,16 @@ export const Input = styled.input.attrs({
   padding: 1em;
 `;
 
+export const ContentBtn = styled.button`
+  display: inline-block;
+  color: palevioletred;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
+
 export const Button = styled.button`
   display: inline-block;
   color: palevioletred;
@@ -19,14 +29,14 @@ export const Button = styled.button`
   padding: 0.25em 1em;
   border: 2px solid palevioletred;
   border-radius: 3px;
-  display: block;
 `;
 
 export const Element = styled.div`
     display: flex;
+    margin: 0;
 `;
 
 export const Header = styled.div`
-    text-align: center;
-    margin: auto;
+    display: inline-block;
+    justify-content: center;
 `;
