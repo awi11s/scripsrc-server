@@ -40,3 +40,5 @@ export const Header = styled.div`
     display: inline-block;
     justify-content: center;
 `;
+
+

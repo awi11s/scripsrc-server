@@ -12,15 +12,10 @@ const annotResolvers = {
             }
         },
         
-        async getAnnot(_, { annotId }) {
+        async getAnnot(_, { book, chapter, verse }) {
             try {
-                const annot = await Annotation.findById(annotId);
-
-                if(annot) {
-                    return annot;
-                } else {
-                    throw new Error('annotation not found')
-                }
+                const annot = await Annotation.find({ book, chapter, verse });
+                return annot;
             } catch(err) {
                 throw new Error(err);
             }

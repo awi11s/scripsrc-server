@@ -2,13 +2,13 @@ import { gql } from "graphql-tag";
 
 const typeDefs = gql`
     type Annot {
-        id: ID!
-        book: String!
-        chapter: Int!
-        verse: Int!
-        username: String!
-        body: String!
-        createdAt: String!
+        id: ID
+        book: String
+        chapter: String 
+        verse: String
+        username: String
+        body: String
+        createdAt: String
     }
 
     type Book {
@@ -44,7 +44,7 @@ const typeDefs = gql`
  
     type Query {
         getChapter(book: String!): Book
-        getAnnot(verseId: ID!): Annot
+        getAnnot(book: String!, chapter: String!, verse: String!): [Annot]
         getAnnots: [Annot]
         getUsers: [User]
     }

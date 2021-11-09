@@ -1,16 +1,22 @@
 import axios from 'axios';
 import Modal from './Modal'
-import { useEffect, useState } from 'react';
-import { Header, Element, Button, Input, ContentBtn } from './styles';
+import { useState } from 'react';
+import { Element, Button, Input, ContentBtn } from './styles';
+
+
+
+
+
 
 const ChapDisplay = () => {
     const [modalOpen, setModalOpen] = useState(false)
-
     const [verses, setVerses] = useState([])
-    const [verse, setVerse] = useState(0)
-    const [book, setBook] = useState('')
-    const [chap, setChap] = useState('')
-    const [error, setError] = useState('')
+    const [verse, setVerse] = useState('')
+    const [bookName, setBookName] = useState('')
+    const [chapNum, setChapNum] = useState('')
+    const [status, setStatus] = useState('')
+
+
     
     const call = async (book, chapter) => {
         try {
@@ -19,40 +25,42 @@ const ChapDisplay = () => {
             );
 
             setVerses(res.data.verses)
+            setStatus(`the book of ${book}, chapter ${chapter}`)
+            
             
         } catch {
             setVerses([])
-            setError('pls give legit inputs')
+            setStatus('input is invalid')
         }
     }
 
 
     return (
         <>
-        <Header>
             <Element>
-                <Input onChange={(e) => setBook(e.target.value)}/>
-                <Input onChange={(e) => setChap(e.target.value)}/>
-                <Button onClick={() => call(book, chap)}>chapter</Button>
+                <Input onChange={(e) => setBookName(e.target.value)}/>
+                <Input onChange={(e) => setChapNum(e.target.value)}/>
+                <Button onClick={() => call(bookName, chapNum)}>show</Button>
             </Element>
-            <h1>{error}</h1>
+            <h1>{status}</h1>
             {
             verses.map(v => (
                 <ContentBtn 
                     key={v.verse} 
                     onClick={() => {
                         setModalOpen(true)
-                        setVerse(v.verse)
+                        setVerse(v.verse.toString())
                     }}>{v.text}</ContentBtn>
             ))
             }
+            <Modal
+                open={modalOpen}
+                book={bookName}
+                chapter={chapNum}
+                verse={verse}
+                onClose={() => setModalOpen(false)}
+            ></Modal>
 
-            <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-                {`${book} ${chap}:${verse}`}
-            </Modal>
-
-        </Header>
-        
         </>
     )
 }
