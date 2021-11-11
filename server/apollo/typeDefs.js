@@ -54,8 +54,8 @@ const typeDefs = gql`
         login(username: String!, password: String!): User!
         createAnnotation(
             book: String!,
-            chapter: Int!,
-            verse: Int!
+            chapter: String!,
+            verse: String!
             body: String!): Annot!
     }
 `;

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Modal from './Modal'
 import { useState } from 'react';
-import { Element, Button, Input, ContentBtn } from './styles';
+import { Button, INPUT_STYLES,CONTENTBTN_STYLES, FORM_STYLE } from './styles';
 
 
 
@@ -30,33 +30,41 @@ const ChapDisplay = () => {
             
         } catch {
             setVerses([])
-            setStatus('input is invalid')
+            setStatus('provide correct book name and chapter number')
         }
     }
 
 
     return (
         <>
-            <Element>
-                <Input onChange={(e) => setBookName(e.target.value.toLowerCase())}/>
-                <Input onChange={(e) => setChapNum(e.target.value)}/>
+            <div style={FORM_STYLE}>
+                <input 
+                    placeholder="book name"
+                    style={INPUT_STYLES} 
+                    type='text' 
+                    onChange={(e) => setBookName(e.target.value.toLowerCase())}/>
+                <input 
+                    placeholder="chapter #"
+                    style={INPUT_STYLES} 
+                    onChange={(e) => setChapNum(Number(e.target.value))}/>
                 <Button onClick={() => call(bookName.toLowerCase(), chapNum)}>show</Button>
-            </Element>
+            </div>
             <h1>{status}</h1>
             {
             verses.map(v => (
-                <ContentBtn 
+                <button 
+                style={CONTENTBTN_STYLES} 
                     key={v.verse} 
                     onClick={() => {
                         setModalOpen(true)
                         setVerse(v.verse.toString())
-                    }}>{v.text}</ContentBtn>
+                    }}>{v.text}</button>
             ))
             }
             <Modal
                 open={modalOpen}
                 book={bookName}
-                chapter={chapNum}
+                chapter={chapNum.toString()}
                 verse={verse}
                 onClose={() => setModalOpen(false)}
             ></Modal>

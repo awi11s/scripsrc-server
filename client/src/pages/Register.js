@@ -1,16 +1,9 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react'
-import styled from 'styled-components';
-import { Button } from '../components/styles';
+import { Link } from 'react-router-dom';
+import { BUTTON_STYLES, FORM_STYLE, INPUT_STYLES, LINK_STYLES } from '../components/styles';
 
-const Input = styled.input.attrs(props => ({
-    type: props.type,
-    size: '0.5em',
-}))`
-    border: 2px solid palevioletred;
-    margin: 0.5em;
-    padding: 0.5em;
-`;
+
 
 const REGISTER_USER = gql`
     mutation register(
@@ -38,6 +31,7 @@ const REGISTER_USER = gql`
 
 
 
+
 export const Register = () => {
     const [values, setValues] = useState({
         username: '',
@@ -46,50 +40,83 @@ export const Register = () => {
         confirmPassword: ''
     })
 
-    const [addUser, { data, loading, error}] = useMutation(REGISTER_USER);
 
-    if (loading) return 'adding user...';
-    if (error) return `user registration failed: ${error.message}`;
+    const [addUser, { data, loading, error }] = useMutation(REGISTER_USER, {
+        variables: values,
+        errorPolicy: 'all'
+    })
+
+    if (data) return 'success';
+    if (loading) return 'loading...'
+
+
 
     const onChange = e => {
         setValues({ ...values, [e.target.name]: e.target.value })
     }
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
-        addUser({ variables: values });
+
+        try {
+            const { data } = await addUser()
+            console.log(data)
+        } catch(e) {
+            console.log(e)
+        }
     }
+
 
     return (
         <div>
-            <form onSubmit={onSubmit}>
-                <Input 
+            <button style={BUTTON_STYLES}>
+                <Link 
+                to="/" 
+                className="link"
+                style={LINK_STYLES}>main page</Link>
+            </button>
+            
+            <form style={FORM_STYLE} onSubmit={onSubmit}>
+                <input 
+                    style={INPUT_STYLES}
+                    placeholder='username'
                     label="username"
                     type="text"
                     name="username"
                     onChange={onChange}
-                    value={values.username}></Input>
-                <Input 
+                    value={values.username}></input>
+                <input 
+                    style={INPUT_STYLES}
+                    placeholder='email'
                     label="email"
                     type="email"
                     name="email"
                     onChange={onChange}
-                    value={values.email}></Input>
-                <Input 
+                    value={values.email}></input>
+                <input 
+                    style={INPUT_STYLES}
+                    placeholder="password"
                     label="password"
                     type="password"
                     name="password"
                     onChange={onChange}
-                    value={values.password}></Input>
-                <Input 
+                    value={values.password}></input>
+                <input 
+                    style={INPUT_STYLES}
+                    placeholder="confirm password"
                     label="confirm password"
                     type="password"
                     name="confirmPassword"
                     onChange={onChange}
-                    value={values.confirmPassword}></Input>
-                <Button>Register</Button>
+                    value={values.confirmPassword}></input>
+                <button style={BUTTON_STYLES}>Register</button>
                 
             </form>
+            <ul>
+            {error ? error.graphQLErrors.map(({ message }, i) => (
+                <li key={i}>{message}</li>
+            )) : null}
+            </ul>
         </div>
     )
 }

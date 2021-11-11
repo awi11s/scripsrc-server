@@ -1,5 +1,6 @@
 import { checkAuth } from "../../utils/auth.js";
 import Annotation from "../../models/Annotation.js";
+import AnnotationSub from "../../models/AnnotationSub.js";
 
 const annotResolvers = {
     Query: {
@@ -20,16 +21,6 @@ const annotResolvers = {
                 throw new Error(err);
             }
         }
-        // async getBook() {
-        //     try {
-        //         const verses = await Books.find()
-        //         return verses;
-        //     } catch(err) {
-        //        console.log("couldn't get annotations"); 
-        //     }
-        // },
-
-        
 
 
     },
@@ -38,7 +29,7 @@ const annotResolvers = {
             try {
                 const user = checkAuth(context);
 
-                const newAnnot = new Annotation({
+                const newAnnot = new AnnotationSub({
                     book,
                     chapter,
                     verse,
@@ -52,7 +43,7 @@ const annotResolvers = {
 
                 return annot
             } catch(err) {
-
+                throw new Error(err)
             }
         }
     }

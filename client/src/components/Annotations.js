@@ -16,7 +16,6 @@ const Annotation = ({ book, chapter, verse }) => {
         variables: { book, chapter, verse },
     });
 
-   
     if (loading) return 'Loading...';
     if (error) return `error! ${error.message}`;
     return (
