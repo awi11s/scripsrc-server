@@ -38,9 +38,9 @@ const ChapDisplay = () => {
     return (
         <>
             <Element>
-                <Input onChange={(e) => setBookName(e.target.value)}/>
+                <Input onChange={(e) => setBookName(e.target.value.toLowerCase())}/>
                 <Input onChange={(e) => setChapNum(e.target.value)}/>
-                <Button onClick={() => call(bookName, chapNum)}>show</Button>
+                <Button onClick={() => call(bookName.toLowerCase(), chapNum)}>show</Button>
             </Element>
             <h1>{status}</h1>
             {
