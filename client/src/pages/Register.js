@@ -1,6 +1,7 @@
 import { gql, useMutation } from '@apollo/client';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { MainGraphic } from '../assets/MainGraphic';
 import { BUTTON_STYLES, FORM_STYLE, INPUT_STYLES, LINK_STYLES } from '../components/styles';
 
 
@@ -32,7 +33,7 @@ const REGISTER_USER = gql`
 
 
 
-export const Register = () => {
+export const Register = (props) => {
     const [values, setValues] = useState({
         username: '',
         email: '',
@@ -46,7 +47,15 @@ export const Register = () => {
         errorPolicy: 'all'
     })
 
-    if (data) return 'success';
+    if (data) {
+        return (
+            <>
+            <h1>account has been created!</h1>
+            <button style={BUTTON_STYLES}><Link style={LINK_STYLES} to="/">back to home</Link></button>
+            </>
+        )
+    }
+    
     if (loading) return 'loading...'
 
 
@@ -61,6 +70,7 @@ export const Register = () => {
         try {
             const { data } = await addUser()
             console.log(data)
+            props.history.push('/')
         } catch(e) {
             console.log(e)
         }
@@ -69,6 +79,7 @@ export const Register = () => {
 
     return (
         <div>
+            <MainGraphic />
             <button style={BUTTON_STYLES}>
                 <Link 
                 to="/" 
@@ -112,11 +123,9 @@ export const Register = () => {
                 <button style={BUTTON_STYLES}>Register</button>
                 
             </form>
-            <ul>
             {error ? error.graphQLErrors.map(({ message }, i) => (
-                <li key={i}>{message}</li>
+                <h2 key={i}>{message}</h2>
             )) : null}
-            </ul>
         </div>
     )
 }

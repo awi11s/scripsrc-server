@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Modal from './Modal'
 import { useState } from 'react';
-import { Button, INPUT_STYLES,CONTENTBTN_STYLES, FORM_STYLE } from './styles';
+import { Button, INPUT_STYLES,CONTENTBTN_STYLES, FORM_STYLE, BUTTON_STYLES } from './styles';
 
 
 
@@ -25,7 +25,7 @@ const ChapDisplay = () => {
             );
 
             setVerses(res.data.verses)
-            setStatus(`the book of ${book}, chapter ${chapter}`)
+            setStatus(`book of ${book} - chapter ${chapter}`)
             
             
         } catch {
@@ -47,7 +47,7 @@ const ChapDisplay = () => {
                     placeholder="chapter #"
                     style={INPUT_STYLES} 
                     onChange={(e) => setChapNum(Number(e.target.value))}/>
-                <Button onClick={() => call(bookName.toLowerCase(), chapNum)}>show</Button>
+                <button style={BUTTON_STYLES} onClick={() => call(bookName.toLowerCase(), chapNum)}>show</button>
             </div>
             <h1>{status}</h1>
             {

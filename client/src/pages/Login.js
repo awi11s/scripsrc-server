@@ -1,58 +1,103 @@
-// import React, { useReducer } from 'react';
+import { gql, useMutation } from '@apollo/client';
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
+import { MainGraphic } from '../assets/MainGraphic';
+import { BUTTON_STYLES, FORM_STYLE, INPUT_STYLES, LINK_STYLES } from '../components/styles';
 
-// const loginReducer = (state, action) => {
-//     switch (action.type) {
-//         case 'login': {
-//             return {
-//                 ...state,
-//                 isLoading: true,
-//                 error: '',
-//             }
-//         }
-//         case 'success': {
-//             return {
-//                 ...state,
-//                 isLoggedIn: true,
-//             }
-//         }
-//         case 'error': {
-//             return {
-//                 ...state,
-//                 error: 'incorrect username and password',
-//                 isLoading: false,
-//                 username: '',
-//                 password: '',
-//             }
-//         }
-//     }
-// }
 
-// const InitState = {
-//     username: '',
-//     password: '',
-//     isLoading: false,
-//     error: '',
-//     isLoggedIn: false,
-// }
 
-export const Login = () => {
-    // const [state, dispatch] = useReducer(reducer, InitState);
+const LOGIN_USER = gql`
+    mutation($username: String!, $password: String!) {
+    login(username: $username, password: $password) {
+        id
+        username
+        email
+        token
+        createdAt
+    }
+}
+`;
 
-    // const onSubmit = async e => {
-    //     e.preventDefault();
 
-    //     dispatch({ type: 'login' })
 
-    //     try {
-    //         dispatch({ type: 'success' })
-    //     } catch {
-    //         dispatch({ type: 'error' })
-    //     }
-    // }
+
+export const Login = (props) => {
+    const [values, setValues] = useState({
+        username: '',
+        password: ''
+    })
+
+
+    const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER, {
+        variables: values,
+        errorPolicy: 'all'
+    })
+
+    if (data) {
+        return (
+            <>
+            <h1>account has been created!</h1>
+            <button style={BUTTON_STYLES}><Link style={LINK_STYLES} to="/">back to home</Link></button>
+            </>
+        )
+    }
+    if (loading) return 'loading...'
+
+
+
+    const onChange = e => {
+        setValues({ ...values, [e.target.name]: e.target.value })
+    }
+
+    const onSubmit = async e => {
+        e.preventDefault();
+
+        try {
+            const { data } = await loginUser()
+            console.log(data)
+            props.history.push('/')
+        } catch(e) {
+            console.log(e)
+        }
+    }
+
 
     return (
         <div>
+            <MainGraphic />
             <h1>login page</h1>
+            <button style={BUTTON_STYLES}>
+                <Link 
+                to="/" 
+                className="link"
+                style={LINK_STYLES}>main page</Link>
+            </button>
+            
+            <form style={FORM_STYLE} onSubmit={onSubmit}>
+                <input 
+                    style={INPUT_STYLES}
+                    placeholder='username'
+                    label="username"
+                    type="text"
+                    name="username"
+                    onChange={onChange}
+                    value={values.username}></input>
+
+                <input 
+                    style={INPUT_STYLES}
+                    placeholder="password"
+                    label="password"
+                    type="password"
+                    name="password"
+                    onChange={onChange}
+                    value={values.password}></input>
+
+                <button style={BUTTON_STYLES}>login</button>
+                
+            </form>
+            {error ? error.graphQLErrors.map(({ message }, i) => (
+                <h2 key={i}>{message}</h2>
+            )) : null}
         </div>
     )
 }

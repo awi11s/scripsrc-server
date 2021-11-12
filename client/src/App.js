@@ -7,9 +7,11 @@ import { Register } from "./pages/Register";
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import { GlobalStyle } from "./components/styles";
 import { Annotations } from "./pages/Annotations";
+// import { AuthProvider } from './components/context/authContext'
 
 function App() {
   return (
+    // <AuthProvider>
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
@@ -19,6 +21,7 @@ function App() {
         <Route path="/annotations" element={ <Annotations /> } />
       </Routes>
     </BrowserRouter>
+    // </AuthProvider>
   );
 }
 

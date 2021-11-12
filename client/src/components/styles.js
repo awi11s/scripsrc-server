@@ -10,28 +10,35 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Concert One', cursive;
   }
 
+  button {
+    cursor: pointer;
+  }
+
+
+
+  h1, 
+  h2 {
+    filter: drop-shadow(0 3mm 3mm #99764e);
+  }
+
   body {
-    background-color: #fffaed;
+    background-color: #fff5fd;
+    margin: 0 auto;
     color: #99764e;
     text-align: center;
+    max-width: 700px;
   }
 
   .modal {
     position: fixed;
-    overflow: hidden;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5em 1em;
-    z-index: 999999;
-    box-sizing: border-box;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fffaed;
+    border-radius: 7px;
+    padding: 25px;
+    z-index: 1000;
+
   }
   
   .modal.modal-fade {
@@ -40,46 +47,13 @@ export const GlobalStyle = createGlobalStyle`
     opacity: 0;
   }
   
-  .modal > .modal-overlay {
-    width: 100%;
-    height: 100%;
-    position: absolute;
+  .modal-overlay {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.7);
     top: 0;
     left: 0;
-  }
-  
-  .modal > .modal-close {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 1.25em;
-    padding: 7px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    border-radius: 50%;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    display: inline-block;
-    text-align: center;
-  }
-  
-  .modal > .modal-close:hover {
-    background: rgba(255, 255, 255, 0.989);
-    color:rgba(0, 0, 0, 0.8);
-  }
-  
-  .modal > .modal-body {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fffaed;
-    border-radius: 7px;
-    padding: 25px;
+    right: 0;
+    bottom: 0;
     z-index: 1000;
   }
   
@@ -117,12 +91,13 @@ export const CONTENTBTN_STYLES = {
   display: 'inline-block',
   color: '#99764e',
   backgroundColor: '#fffaed',
-  fontSize: '1em',
+  fontSize: '1.4em',
   margin: '1em',
-  padding: '0.25em 1em',
+  padding: '0.5em 1.5em',
   border: 'none',
-  boxShadow: '0px 0px 0px 3px rgba(0, 0, 0, 0.1)',
-  borderRadius: '5px'
+  filter: 'drop-shadow(0 5mm 3mm #99764e)',
+  borderRadius: '6px'
+  
 }
 
 export const BUTTON_STYLES = {
@@ -133,7 +108,7 @@ export const BUTTON_STYLES = {
   margin: '1em',
   padding: '0.25em 1em',
   border: 'none',
-  boxShadow: '0px 0px 0px 3px rgba(0, 0, 0, 0.1)',
+  filter: 'drop-shadow(0 3mm 3mm #99764e)',
   borderRadius: '5px'
 }
 export const Input = styled.input.attrs(props => ({

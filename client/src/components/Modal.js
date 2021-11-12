@@ -23,8 +23,8 @@ const Annotation = ({ book, chapter, verse }) => {
         variables: { book, chapter, verse }
     })
 
-    if (loading) return `loading`;
-    if (error) return `error`;
+    if (loading) return <p>loading</p>;
+    if (error) return <p>error</p>;
 
     return (
         <>
@@ -48,22 +48,20 @@ const Modal = ({
     if(!open) return null;
 
         return ReactDom.createPortal(
-        <>
-        <div className="modal overlay" onClick={onClose}/>
-        <div className="modal modal-fade" onClick={onClose}>
-            <div className="modal-body">
-            {children}
-            <Annotation book={book} chapter={chapter} verse={verse}/>
-            <button style={BUTTON_STYLES}>
+          <>
+            <div className="modal-overlay" onClick={onClose} />
+            <div className="modal modal-fade">
+              {children}
+              <Annotation book={book} chapter={chapter} verse={verse} />
+              <button style={BUTTON_STYLES}>
                 <Link to="/annotations" style={LINK_STYLES}>
-                    submit annotation
+                  submit annotation
                 </Link>
-            </button>
+              </button>
             </div>
-        </div>
-        </>,
-        document.getElementById('portal')
-    )
+          </>,
+          document.getElementById("portal")
+        );
 }
 
 export default Modal;

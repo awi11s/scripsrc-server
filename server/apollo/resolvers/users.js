@@ -82,6 +82,7 @@ const userResolver = {
         throw new UserInputError("Errors", { errors });
       }
 
+      // checking for existing username
       const user = await User.findOne({ username });
       if (user) {
         throw new UserInputError("username is taken", {
@@ -89,6 +90,16 @@ const userResolver = {
             username: "this username is taken",
           },
         });
+      }
+
+      //checking for existing email
+      const userEmail = await User.findOne({ email })
+      if (userEmail) {
+        throw new UserInputError("email is already registered", {
+          errors: {
+            email: "this email is registered already",
+          }
+        })
       }
 
       password = await bcrypt.hash(password, 12);
