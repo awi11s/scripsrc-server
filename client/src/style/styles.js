@@ -18,7 +18,11 @@ export const GlobalStyle = createGlobalStyle`
 
   h1, 
   h2 {
-    filter: drop-shadow(0 3mm 3mm #99764e);
+    filter: drop-shadow(0 2mm 2mm #99764e);
+  }
+
+  p {
+    font-size: 1.5em;
   }
 
   body {

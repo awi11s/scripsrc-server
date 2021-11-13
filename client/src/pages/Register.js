@@ -1,39 +1,19 @@
-import { gql, useMutation } from '@apollo/client';
-import React, { useState } from 'react'
+import { useMutation } from '@apollo/client';
+import React, { useState, useContext } from 'react'
 import { Link } from 'react-router-dom';
 import { MainGraphic } from '../assets/MainGraphic';
-import { BUTTON_STYLES, FORM_STYLE, INPUT_STYLES, LINK_STYLES } from '../components/styles';
-
-
-
-const REGISTER_USER = gql`
-    mutation register(
-        $username: String!
-        $email: String!
-        $password: String!
-        $confirmPassword: String!
-    ) {
-        register(
-            registerInput: {
-                username: $username
-                email: $email
-                password: $password
-                confirmPassword: $confirmPassword
-            }
-        ) {
-            id
-            email
-            username
-            createdAt
-            token
-        }
-    }
-`;
+import { AuthContext } from '../components/context/authContext'
+import { BUTTON_STYLES, FORM_STYLE, INPUT_STYLES, LINK_STYLES } from '../style/styles';
+import { REGISTER_USER } from '../utils/mutations';
 
 
 
 
-export const Register = (props) => {
+
+
+
+export const Register = () => {
+    const context = useContext(AuthContext)
     const [values, setValues] = useState({
         username: '',
         email: '',
@@ -51,6 +31,7 @@ export const Register = (props) => {
         return (
             <>
             <h1>account has been created!</h1>
+            <h2>welcome {data.register.username}</h2>
             <button style={BUTTON_STYLES}><Link style={LINK_STYLES} to="/">back to home</Link></button>
             </>
         )
@@ -68,9 +49,8 @@ export const Register = (props) => {
         e.preventDefault();
 
         try {
-            const { data } = await addUser()
-            console.log(data)
-            props.history.push('/')
+            const dat = await addUser()
+            context.register(dat)
         } catch(e) {
             console.log(e)
         }

@@ -1,7 +1,12 @@
 import axios from 'axios';
-import Modal from './Modal'
 import { useState } from 'react';
-import { Button, INPUT_STYLES,CONTENTBTN_STYLES, FORM_STYLE, BUTTON_STYLES } from './styles';
+
+import Modal from './Modal'
+import { 
+    INPUT_STYLES,
+    CONTENTBTN_STYLES, 
+    FORM_STYLE, 
+    BUTTON_STYLES } from '../style/styles';
 
 
 

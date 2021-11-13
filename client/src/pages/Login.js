@@ -1,27 +1,16 @@
-import { gql, useMutation } from '@apollo/client';
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import { useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { MainGraphic } from '../assets/MainGraphic';
-import { BUTTON_STYLES, FORM_STYLE, INPUT_STYLES, LINK_STYLES } from '../components/styles';
+import { AuthContext } from '../components/context/authContext';
+import { LOGIN_USER } from '../utils/mutations';
+import { BUTTON_STYLES, FORM_STYLE, INPUT_STYLES, LINK_STYLES } from '../style/styles';
 
 
+export const Login = () => {
 
-const LOGIN_USER = gql`
-    mutation($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-        id
-        username
-        email
-        token
-        createdAt
-    }
-}
-`;
+    const context = useContext(AuthContext)
 
-
-
-
-export const Login = (props) => {
     const [values, setValues] = useState({
         username: '',
         password: ''
@@ -33,10 +22,11 @@ export const Login = (props) => {
         errorPolicy: 'all'
     })
 
+
     if (data) {
         return (
             <>
-            <h1>account has been created!</h1>
+            <h1>welcome {data.login.username}</h1>
             <button style={BUTTON_STYLES}><Link style={LINK_STYLES} to="/">back to home</Link></button>
             </>
         )
@@ -53,9 +43,8 @@ export const Login = (props) => {
         e.preventDefault();
 
         try {
-            const { data } = await loginUser()
-            console.log(data)
-            props.history.push('/')
+            const dat = await loginUser();
+            context.login(dat);
         } catch(e) {
             console.log(e)
         }

@@ -1,22 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import ReactDom from 'react-dom';
 import { Link } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+
 import { 
     BUTTON_STYLES, 
-    LINK_STYLES,
-    // MODAL_STYLE, 
-    // OVERLAY_STYLES 
-} from './styles';
-
-const GET_ANNOTATION = gql`
-    query annotation($book: String!, $chapter: String!, $verse: String!) {
-        getAnnot(book: $book, chapter: $chapter, verse: $verse) {
-            body
-            username
-        }
-    }
-`;
+    LINK_STYLES
+} from '../style/styles';
+import { AuthContext } from './context/authContext';
+import { GET_ANNOTATION } from '../utils/queries';
 
 const Annotation = ({ book, chapter, verse }) => {
     const { loading, error, data } = useQuery(GET_ANNOTATION, {
@@ -24,14 +16,25 @@ const Annotation = ({ book, chapter, verse }) => {
     })
 
     if (loading) return <p>loading</p>;
-    if (error) return <p>error</p>;
+    if (error) {
+      return (
+        <>
+        <h2>error:</h2>
+        <p>DB is inaccessable on mobile rn</p>
+        <p>annotations will go here...</p>
+        </>
+      );
+    }
 
     return (
         <>
         <h2>context annotations:</h2>
-        <ul>
-            {data.getAnnot.map(a => <li key={a.username}>{a.body}</li>)}  
-        </ul>
+            {data.getAnnot.map(a => (
+            <>
+            <p key={a.username}>{a.body}</p>
+            <hr style={{ borderTop: '5px solid #99764e'}} />
+            </>
+            ))}  
         </>
     )
 }
@@ -45,7 +48,11 @@ const Modal = ({
         verse
      }) => {
 
+    const { user } = useContext(AuthContext)
+    
     if(!open) return null;
+
+    
 
         return ReactDom.createPortal(
           <>
@@ -53,11 +60,20 @@ const Modal = ({
             <div className="modal modal-fade">
               {children}
               <Annotation book={book} chapter={chapter} verse={verse} />
+              {user ? 
               <button style={BUTTON_STYLES}>
                 <Link to="/annotations" style={LINK_STYLES}>
                   submit annotation
                 </Link>
               </button>
+              : 
+              <button style={BUTTON_STYLES}>
+                <Link to="/login" style={LINK_STYLES}>
+                  login to add annotation
+                </Link>
+              </button>
+              }
+              
             </div>
           </>,
           document.getElementById("portal")

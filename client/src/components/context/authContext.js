@@ -1,9 +1,10 @@
 import React, { useReducer, createContext } from "react";
 
-export const AuthContext = createContext({
+const AuthContext = createContext({
     user: null,
     login: (data) => {},
-    logout: (data) => {}
+    register: (data) => {},
+    logout: () => {}
 })
 
 function authReducer(state, action) {
@@ -25,10 +26,19 @@ function authReducer(state, action) {
 }
 
 
-export const AuthProvider = (props) => {
+function AuthProvider(props) {
     const [state, dispatch] = useReducer(authReducer, { user: null })
 
     function login(userData) {
+        localStorage.setItem('jwtToken', userData.data.login.token)
+        dispatch({
+            type: 'LOGIN',
+            payload: userData
+        })
+    }
+
+    function register(userData) {
+        localStorage.setItem('jwtToken', userData.data.register.token)
         dispatch({
             type: 'LOGIN',
             payload: userData
@@ -36,11 +46,13 @@ export const AuthProvider = (props) => {
     }
 
     function logout() {
+        localStorage.removeItem('jwtToken')
         dispatch({ type: 'LOGOUT' })
     }
 
     return (
-        <AuthContext.Provider value={{ user: state.user, login, logout }} {...props} />
+        <AuthContext.Provider value={{ user: state.user, login, register, logout }} {...props} />
     )
 }
 
+export {AuthContext, AuthProvider}
