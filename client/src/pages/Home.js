@@ -16,12 +16,14 @@ export const Home = () => {
     return (
         <>
             <MainGraphic />
+            <h1>scripture src</h1>
             {user ? 
                 <button style={BUTTON_STYLES} onClick={onLogout}>logout</button> 
                 : 
                 <>
                 <button style={BUTTON_STYLES}><Link to='/register' style={LINK_STYLES}>sign up</Link></button>
                 <button style={BUTTON_STYLES}><Link to='/login' style={LINK_STYLES}>login</Link></button>
+                <button style={BUTTON_STYLES}><Link to='/about' style={LINK_STYLES}>about</Link></button>
                 </>
             }       
             <ChapDisplay />

@@ -11,7 +11,10 @@ import {
 
 
 
-
+const lastCallState = {
+    book: '',
+    chapter: ''
+}
 
 const ChapDisplay = () => {
     const [modalOpen, setModalOpen] = useState(false)
@@ -24,13 +27,18 @@ const ChapDisplay = () => {
 
     
     const call = async (book, chapter) => {
+        if (lastCallState.book === book && lastCallState.chapter === chapter) return;
+
         try {
             const res = await axios.get(
                 `https://bible-api.com/${book}+${chapter}`
             );
 
             setVerses(res.data.verses)
-            setStatus(`book of ${book} - chapter ${chapter}`)
+            setStatus(`book of ${book.toLowerCase()} - chapter ${chapter}`)
+            lastCallState.book = book;
+            lastCallState.chapter = chapter;
+            console.log(res.data)
             
             
         } catch {
@@ -47,7 +55,7 @@ const ChapDisplay = () => {
                     placeholder="book name"
                     style={INPUT_STYLES} 
                     type='text' 
-                    onChange={(e) => setBookName(e.target.value.toLowerCase())}/>
+                    onChange={(e) => setBookName(e.target.value)}/>
                 <input 
                     placeholder="chapter #"
                     style={INPUT_STYLES} 
