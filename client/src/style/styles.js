@@ -7,7 +7,7 @@ export const GlobalStyle = createGlobalStyle`
   button,
   input,
   li {
-    font-family: 'Concert One', cursive;
+    font-family: 'Zen Maru Gothic', sans-serif;
   }
 
   button {
@@ -22,7 +22,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   p {
-    font-size: 1.5em;
+    font-size: 1.2em;
   }
 
   body {
@@ -35,6 +35,7 @@ export const GlobalStyle = createGlobalStyle`
 
   .modal {
     position: fixed;
+    width: 80%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -85,6 +86,7 @@ export const INPUT_STYLES = {
   color: '#99764e',
   backgroundColor: '#fffaed',
   fontSize: '1.1em',
+  maxWidth: '50%',
   border: '2px solid #99764e',
   borderRadius: '4px',
   margin: '1em',

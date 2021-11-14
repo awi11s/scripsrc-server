@@ -11,11 +11,12 @@ import { BUTTON_STYLES, FORM_STYLE, INPUT_STYLES, LINK_STYLES } from '../style/s
 
 
 export const Annotations = () => {
+
     const [values, setValues] = useState({
         book: '',
         chapter: '',
         verse: '',
-        annotation: ''
+        body: ''
     })
 
 
@@ -42,7 +43,7 @@ export const Annotations = () => {
 
     const onSubmit = async e => {
         e.preventDefault();
-
+        console.log(values)
         try {
             await submitAnnotation()
         } catch(e) {
@@ -68,7 +69,7 @@ export const Annotations = () => {
                     placeholder='book'
                     label="book"
                     type="text"
-                    name="chapter"
+                    name="book"
                     onChange={onChange}
                     value={values.book}></input>
 
@@ -93,9 +94,9 @@ export const Annotations = () => {
                     placeholder="annotation body"
                     label="annotation"
                     type="text"
-                    name="annotation"
+                    name="body"
                     onChange={onChange}
-                    value={values.annotation}></input>
+                    value={values.body}></input>
 
                 <button style={BUTTON_STYLES}>submit</button>
                 <button style={BUTTON_STYLES}><Link style={LINK_STYLES} to="/">back to home</Link></button>

@@ -16,9 +16,9 @@ import {
 const ChapDisplay = () => {
     const [modalOpen, setModalOpen] = useState(false)
     const [verses, setVerses] = useState([])
-    const [verse, setVerse] = useState('')
+    const [verse, setVerse] = useState(0)
     const [bookName, setBookName] = useState('')
-    const [chapNum, setChapNum] = useState('')
+    const [chapNum, setChapNum] = useState(0)
     const [status, setStatus] = useState('')
 
 
@@ -51,8 +51,9 @@ const ChapDisplay = () => {
                 <input 
                     placeholder="chapter #"
                     style={INPUT_STYLES} 
-                    onChange={(e) => setChapNum(Number(e.target.value))}/>
-                <button style={BUTTON_STYLES} onClick={() => call(bookName.toLowerCase(), chapNum)}>show</button>
+                    // making sure that the chapter is a number before a bad req is sent to the server
+                    onChange={(e) => setChapNum(e.target.value)}/>
+                <button style={BUTTON_STYLES} onClick={() => call(bookName.trim(), chapNum)}>show</button>
             </div>
             <h1>{status}</h1>
             {
@@ -69,6 +70,7 @@ const ChapDisplay = () => {
             <Modal
                 open={modalOpen}
                 book={bookName}
+                // once assured that chapter field is a number, then it can be packaged as a string for the server request
                 chapter={chapNum.toString()}
                 verse={verse}
                 onClose={() => setModalOpen(false)}

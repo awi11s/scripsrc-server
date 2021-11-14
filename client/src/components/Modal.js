@@ -32,7 +32,7 @@ const Annotation = ({ book, chapter, verse }) => {
             {data.getAnnot.map(a => (
             <>
             <p key={a.username}>{a.body}</p>
-            <hr style={{ borderTop: '5px solid #99764e'}} />
+            <p key={a.body}>by: {a.username}</p>
             </>
             ))}  
         </>
