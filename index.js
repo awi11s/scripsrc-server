@@ -1,16 +1,21 @@
 import { ApolloServer } from 'apollo-server';
 import mongoose from 'mongoose';
-
+import dotenv from 'dotenv';
 import resolvers from './apollo/resolvers/index.js';
 import typeDefs from './apollo/typeDefs.js';
+
+dotenv.config();
 
 let MONGO;
 
 if (process.env.NODE_ENV === "development") {
     MONGO = process.env.MONGODB;
+    console.log("you are in development")
+} else {
+    MONGO = process.env.MONGO_URL;
 }
 
-MONGO = process.env.MONGO_URL;
+
 
 const server = new ApolloServer({ 
     typeDefs, 
