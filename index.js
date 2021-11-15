@@ -8,7 +8,6 @@ import typeDefs from './apollo/typeDefs.js';
 
 // dotenv.config();
 
-console.log(process.env.NODE_ENV)
 const server = new ApolloServer({ 
     typeDefs, 
     resolvers,
@@ -16,7 +15,7 @@ const server = new ApolloServer({
 });
 
 mongoose
-    .connect(process.env.MONGODB, { useNewUrlParser: true })
+    .connect(process.env.MONGO_URL, { useNewUrlParser: true })
     .then(() => {
         console.log('mongodb connected');
         return server.listen({port: 4000 })
