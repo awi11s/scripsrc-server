@@ -1,12 +1,16 @@
 import { ApolloServer } from 'apollo-server';
-// import { gql } from "graphql-tag";
 import mongoose from 'mongoose';
-// import dotenv from 'dotenv';
 
 import resolvers from './apollo/resolvers/index.js';
 import typeDefs from './apollo/typeDefs.js';
 
-// dotenv.config();
+let MONGO;
+
+if (process.env.NODE_ENV === "development") {
+    MONGO = process.env.MONGODB;
+}
+
+MONGO = process.env.MONGO_URL;
 
 const server = new ApolloServer({ 
     typeDefs, 
@@ -15,7 +19,7 @@ const server = new ApolloServer({
 });
 
 mongoose
-    .connect(process.env.MONGO_URL, { useNewUrlParser: true })
+    .connect(MONGO, { useNewUrlParser: true })
     .then(() => {
         console.log('mongodb connected');
         return server.listen({port: 4000 })
