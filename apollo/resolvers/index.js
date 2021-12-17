@@ -1,12 +1,12 @@
 import annotResolvers from "./annotations.js";
 import userResolver from "./users.js";
-import bookResolvers from "./books.js";
+import versesResolver from "./verses.js";
 
 const resolvers =  {
     Query: {
         ...annotResolvers.Query,
         ...userResolver.Query,
-        ...bookResolvers.Query
+        ...versesResolver.Query
     },
 
     Mutation: {

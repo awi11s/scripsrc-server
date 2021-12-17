@@ -12,12 +12,14 @@ const typeDefs = gql`
     }
 
     type Book {
-        book: String!
+        book: String
         chapters: [Chapter]
     }
 
 
     type Chapter {
+        book: String!
+        totalChaps: String!
         chapter: String!
         verses: [Verse]
    }
@@ -43,7 +45,7 @@ const typeDefs = gql`
     }
  
     type Query {
-        getChapter(book: String!): Book
+        getVerses(book: String!, chapter: String!): [Chapter]
         getAnnot(book: String!, chapter: String!, verse: String!): [Annot]
         getAnnots: [Annot]
         getUsers: [User]
